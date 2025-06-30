@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="content">
+      <div class="container p-4">
+
+        <div class="field">
+          <div class="columns is-vcentered is-flex is-flex-direction-row is-1">
+            
+            <div class="column">
+              <div id="auth_state"><span class="auth_indicator"></span> Authorization: checking..</div>
+            </div>
+
+            <div class="column is-flex-grow-0">
+              <div class="control">
+                <button class="button is-info is-rounded is-focused is-small" id="login_button">Logout</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+          
+        <div class="field is-grouped">
+          <div class="control is-expanded">
+            <input class="input" type="text" id="uid" placeholder="Enter UID (or UIDs separated with commas)">
+          </div>
+          <div class="control">
+            <button class="button is-link is-rounded is-focused" id="debug_button">Debug</button>
+          </div>
+        </div>
+
+        <div class="field is-flex is-justify-content-space-between" style="gap: 1rem;">
+          <div class="control">
+            <label class="label is-small">Start</label>
+            <input class="input is-small" type="text" id="start" placeholder="e.g. now" value="now">
+            <div class="tags" id="start_tags" style="margin-top: 0.5rem;">
+              <span class="tag is-info is-light is-small is-rounded is-hoverable">now</span>
+              <span class="tag is-info is-light is-small is-rounded is-hoverable">+1h</span>
+              <span class="tag is-info is-light is-small is-rounded is-hoverable">+1d</span>
+            </div>
+          </div>
+          <div class="control">
+            <label class="label is-small">Stop</label>
+            <input class="input is-small" type="text" id="stop" placeholder="e.g. +12h" value="+12h">
+            <div class="tags" id="stop_tags" style="margin-top: 0.5rem;">
+              <span class="tag is-info is-light is-small is-rounded is-hoverable">+3h</span>
+              <span class="tag is-info is-light is-small is-rounded is-hoverable">+1d</span>
+              <span class="tag is-info is-light is-small is-rounded is-hoverable">+3d</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="field is-flex" style="gap: 1rem;">
+          <div class="control">
+            <label class="label is-small">Device Type</label>
+            <div class="control is-small">
+              <input class="input is-small" type="text" id="device_type" list="device_type_list" placeholder="e.g. LinkinPark">
+              <datalist id="device_type_list">            
+              </datalist>
+            </div>
+          </div>
+          <div class="control">
+            <label class="label is-small">Server</label>
+            <div class="select is-small is-multiple">
+              <select id="server">
+                <option>tgi</option>
+                <option>sgi</option>
+                <option>mts</option>
+                <option>usa</option>
+              </select>
+            </div>
+          </div>
+          <div class="checkbox-container">
+            <label class="checkbox label custom-checkbox-label">
+              <input type="checkbox" id="auto_wait" checked/>
+              Wait until client is connected
+            </label>
+            <label class="checkbox label custom-checkbox-label">
+              <input type="checkbox" id="auto_remove" checked/>
+              Remove on success
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          
+          <div class="columns is-mobile is-narrow">
+            <div class="column">
+              <label class="label" id="active_debugs_title" style="padding-left: 9px;"><strong>Active Debugs</strong></label>
+            </div>
+            <div class="column is-narrow is-flex is-align-items-flex-end">
+              <label class="checkbox label custom-checkbox-label">
+                <input type="checkbox" id="view_my" checked/>
+                   Show only my debugs
+              </label>
+            </div>
+          </div>
+          
+          <div class="field" style="max-height: 200px; min-width: 500px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgb(70, 70, 250) grey; padding: 9px 15px 9px 9px;" id="debugs">
+            <div class="block is-size-7" id="no_debug">No active debugs</div>
+          </div>
+        
+        </div>
+
+      </div>
+
+      <template id="debug-template">
+        <div class="box" id="box_TEMPLATE_UID">
+            <div class="columns is-vcentered is-flex">
+                <div class="column has-text-left is-4 is-flex-grow-1" style="text-overflow: ellipsis; overflow: hidden;">
+                    <p class="title" id="uid_TEMPLATE_UID" style="font-size: 0.75rem; white-space: nowrap;">
+                      <a href="https://www.google.com" target="_blank" style="text-decoration: none; color: inherit;">TEMPLATE_DEVICE_UID</a>
+                    </p>
+                    <p class="subtitle" id="guid_TEMPLATE_UID" style="font-size: 0.75rem;">TEMPLATE_DEVICE_TYPE</p>
+                </div>
+                <div class="column is-8 has-text-right is-flex-grow-2">
+                    <table class="table is-narrow is-size-7">
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: bold;">state:</td>
+                                <td id="stateVal_TEMPLATE_UID" style="font-weight: bold; color: TEMPLATE_STATE_COLOR">TEMPLATE_STATE</td>
+                            </tr>
+                            <tr>
+                                <td>server:</td>
+                                <td id="serverVal_TEMPLATE_UID">TEMPLATE_SERVER</td>
+                            </tr>
+                            <tr>
+                                <td>creator:</td>
+                                <td id="creatorVal_TEMPLATE_UID">TEMPLATE_CREATOR</td>
+                            </tr>
+                            <tr>
+                                <td>start at:</td>
+                                <td id="startVal_TEMPLATE_UID">TEMPLATE_START_AT</td>
+                            </tr>
+                            <tr>
+                                <td>stop at:</td>
+                                <td id="stopVal_TEMPLATE_UID">TEMPLATE_STOP_AT</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="column is-narrow has-text-center is-flex-grow-0 is-flex-shrink-1">
+                  <div class="button-container">
+                    <button class="button is-danger is-rounded is-small" id="remove_button_TEMPLATE_UID">Remove</button>
+                    <button class="button is-link is-rounded is-small" id="finish_button_TEMPLATE_UID">Stop now</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </template>
+      
+      <template id="confirm_box_template">
+        <div class="alert-box confirm-box">
+          <p class="confirm-title">Do you confirm the deletion?</p>
+          <div class="confirm-buttons" id="buttons_container_template">
+            <button id="confirm_button" class="button is-small is-success is-focused is-rounded">Confirm</button>
+            <button id="cancel_button" class="button is-small is-warning is-focused is-rounded">Cancel</button>
+          </div>
+        </div>
+      </template>
+      
+      <script type="module" src="/popup.js"></script>
+    </div>
+  </body>
+</html>
